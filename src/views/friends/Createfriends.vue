@@ -51,12 +51,12 @@ export default {
     const router = useRouter();
     function store() {
       let nama = friend.nama;
-      let no_tlp = friend.notlp;
+      let notlp = friend.notlp;
       let alamat = friend.alamat;
       axios
-        .post("http://127.0.0.1:8000/api/friends", {
+        .post('http://pia.labirin.co.id/api/friends', {
           nama: nama,
-          no_tlp: no_tlp,
+          notlp: notlp,
           alamat: alamat,
         })
         .then(() => {

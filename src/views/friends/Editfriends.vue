@@ -30,3 +30,64 @@
     </div>
   </div>
 </template>
+
+<script>
+import { onMounted, reactive, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
+export default {
+  setup() {
+    const friend = reactive({
+      nama: "",
+      no_tlp: "",
+      alamat: "",
+    });
+
+    const validation = ref([]);
+
+    const router = useRouter();
+
+    const route = useRoute();
+
+    onMounted(()=>(
+      axios.get(`http://pia.labirin.co.id/api/friends/${route.params.id}`)
+      .then(response => {
+        console.log(response.data.data.nama)
+
+        friend.nama = response.data.data.nama
+        friend.no_tlp = response.data.data.no_tlp
+        friend.alamat = response.data.data.alamat
+      }).catch(error => {
+        console.log(error.response.data)
+      })
+    ))
+
+    function update() {
+      let nama = friend.nama;
+      let notlp = friend.notlp;
+      let alamat = friend.alamat;
+
+      axios.put(`http://pia.labirin.co.id/api/friends/${route.params.id}`, {
+          nama: nama,
+          notlp: notlp,
+          alamat: alamat,
+        })
+        .then(() => {
+          router.push({
+            name: 'Home',
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    return {
+      friend,
+      validation,
+      router,
+      update,
+      route
+    };
+  },
+};
+</script>

@@ -54,6 +54,17 @@ export default {
           console.log(error);
         });
     });
+
+    function friendDelete(id){
+      axios.delete(`http://pia.labirin.co.id/api/friends/${id}`)
+      .then(()=>{
+        let z = this.friends.map(friends => friends.id).indexOf(id);
+        this.friends.splice(z, 1)
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+
     return {
       friends,
     };
